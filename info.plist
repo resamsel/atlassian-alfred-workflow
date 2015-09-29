@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.resamsel.jira</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>35243B29-FF06-4D8C-80C7-818CB97840F3</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>D72C571F-61CF-4F00-A9FA-13C6C6D89CE8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>7247ECB9-5B45-4F70-8495-E2801B7FA587</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5F3F4D96-DDB1-4FDA-9DF0-4958EE1E7D3D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>73569DB5-F7F6-44C5-8456-8897B2E043CA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>76A4E280-8190-4D16-97B9-DFC11F51FF86</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C224323F-E59B-46FF-8A49-77EE1B74E668</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Copy '{query}' to clipboard</string>
+			</dict>
+		</array>
+		<key>8C4566CB-7260-42B0-A941-2213DEB91184</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>76A4E280-8190-4D16-97B9-DFC11F51FF86</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C224323F-E59B-46FF-8A49-77EE1B74E668</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>CB2F794F-DC4F-4050-A854-3B0D2BAA0772</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>76A4E280-8190-4D16-97B9-DFC11F51FF86</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C224323F-E59B-46FF-8A49-77EE1B74E668</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>F66F9F32-874E-4D21-8AD8-3F33601A8B2C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>76A4E280-8190-4D16-97B9-DFC11F51FF86</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C224323F-E59B-46FF-8A49-77EE1B74E668</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>René Samselnig</string>
+	<key>description</key>
+	<string>Opens a Jira issue in your default browser</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Jira</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>cup-</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>QUERY="{query}"
+ISSUE="CUP-$QUERY"
+
+if [ "${#QUERY}" -lt "3" ]; then
+	echo '&lt;items&gt;&lt;item arg="CREW-{query}"&gt;&lt;title&gt;'$ISSUE'&lt;/title&gt;&lt;subtitle&gt;'$ISSUE'&lt;/subtitle&gt;&lt;/item&gt;&lt;/items&gt;'
+	exit
+fi
+
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home"
+export JIRA_CONFIG="-s https://chillimetrix.alturos.com/jira/ -u samren -p $(cat ~/.domain_password)"
+
+echo "/usr/local/bin/jira --action getIssue --issue $ISSUE" &gt;&gt; /tmp/jira.log
+CONTENT="$(/usr/local/bin/jira --action getIssue --issue $ISSUE 2&gt;&gt; /tmp/jira.log)"
+echo "$CONTENT" &gt;&gt; /tmp/jira.log
+TITLE="$(echo "$CONTENT" | grep -e '^Summary' | sed 's/^.* : //')"
+echo "$TITLE" &gt;&gt; /tmp/jira.log
+DESCRIPTION="$(echo "$CONTENT" | grep -e '^Description' | sed 's/^.* : //')"
+echo "$DESCRIPTION" &gt;&gt; /tmp/jira.log
+
+cat &lt;&lt;EOF
+&lt;items&gt;
+	&lt;item&gt;
+		&lt;title&gt;$TITLE&lt;/title&gt;
+		&lt;subtitle mod="alt"&gt;Copy "$TITLE" into clipboard&lt;/subtitle&gt;
+		&lt;subtitle&gt;$DESCRIPTION&lt;/subtitle&gt;
+		&lt;arg mod="alt"&gt;$TITLE&lt;/arg&gt;
+		&lt;arg&gt;$ISSUE&lt;/arg&gt;
+		&lt;text type="copy"&gt;$TITLE&lt;/text&gt;
+	&lt;/item&gt;
+&lt;/items&gt;
+EOF
+</string>
+				<key>subtext</key>
+				<string>Opens issue in Alturos Jira</string>
+				<key>title</key>
+				<string>Jira</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>73569DB5-F7F6-44C5-8456-8897B2E043CA</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>skiline-</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>QUERY="{query}"
+ISSUE="SKILINE-$QUERY"
+
+if [ "${#QUERY}" -lt "3" ]; then
+	echo '&lt;items&gt;&lt;item arg="CREW-{query}"&gt;&lt;title&gt;'$ISSUE'&lt;/title&gt;&lt;subtitle&gt;'$ISSUE'&lt;/subtitle&gt;&lt;/item&gt;&lt;/items&gt;'
+	exit
+fi
+
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home"
+export JIRA_CONFIG="-s https://chillimetrix.alturos.com/jira/ -u samren -p $(cat ~/.domain_password)"
+
+echo "/usr/local/bin/jira --action getIssue --issue $ISSUE" &gt;&gt; /tmp/jira.log
+CONTENT="$(/usr/local/bin/jira --action getIssue --issue $ISSUE 2&gt;&gt; /tmp/jira.log)"
+echo "$CONTENT" &gt;&gt; /tmp/jira.log
+TITLE="$(echo "$CONTENT" | grep -e '^Summary' | sed 's/^.* : //')"
+echo "$TITLE" &gt;&gt; /tmp/jira.log
+DESCRIPTION="$(echo "$CONTENT" | grep -e '^Description' | sed 's/^.* : //')"
+echo "$DESCRIPTION" &gt;&gt; /tmp/jira.log
+
+cat &lt;&lt;EOF
+&lt;items&gt;
+	&lt;item&gt;
+		&lt;title&gt;$TITLE&lt;/title&gt;
+		&lt;subtitle mod="alt"&gt;Copy "$TITLE" into clipboard&lt;/subtitle&gt;
+		&lt;subtitle&gt;$DESCRIPTION&lt;/subtitle&gt;
+		&lt;arg mod="alt"&gt;$TITLE&lt;/arg&gt;
+		&lt;arg&gt;$ISSUE&lt;/arg&gt;
+		&lt;text type="copy"&gt;$TITLE&lt;/text&gt;
+	&lt;/item&gt;
+&lt;/items&gt;
+EOF
+</string>
+				<key>subtext</key>
+				<string>Opens issue in Alturos Jira</string>
+				<key>title</key>
+				<string>Jira</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>CB2F794F-DC4F-4050-A854-3B0D2BAA0772</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>plusspaces</key>
+				<true/>
+				<key>url</key>
+				<string>https://chillimetrix.alturos.com/jira/browse/{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>76A4E280-8190-4D16-97B9-DFC11F51FF86</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>hikeline-</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>QUERY="{query}"
+ISSUE="HIKELINE-$QUERY"
+
+if [ "${#QUERY}" -lt "3" ]; then
+	echo '&lt;items&gt;&lt;item arg="CREW-{query}"&gt;&lt;title&gt;'$ISSUE'&lt;/title&gt;&lt;subtitle&gt;'$ISSUE'&lt;/subtitle&gt;&lt;/item&gt;&lt;/items&gt;'
+	exit
+fi
+
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home"
+export JIRA_CONFIG="-s https://chillimetrix.alturos.com/jira/ -u samren -p $(cat ~/.domain_password)"
+
+echo "/usr/local/bin/jira --action getIssue --issue $ISSUE" &gt;&gt; /tmp/jira.log
+CONTENT="$(/usr/local/bin/jira --action getIssue --issue $ISSUE 2&gt;&gt; /tmp/jira.log)"
+echo "$CONTENT" &gt;&gt; /tmp/jira.log
+TITLE="$(echo "$CONTENT" | grep -e '^Summary' | sed 's/^.* : //')"
+echo "$TITLE" &gt;&gt; /tmp/jira.log
+DESCRIPTION="$(echo "$CONTENT" | grep -e '^Description' | sed 's/^.* : //')"
+echo "$DESCRIPTION" &gt;&gt; /tmp/jira.log
+
+cat &lt;&lt;EOF
+&lt;items&gt;
+	&lt;item&gt;
+		&lt;title&gt;$TITLE&lt;/title&gt;
+		&lt;subtitle mod="alt"&gt;Copy "$TITLE" into clipboard&lt;/subtitle&gt;
+		&lt;subtitle&gt;$DESCRIPTION&lt;/subtitle&gt;
+		&lt;arg mod="alt"&gt;$TITLE&lt;/arg&gt;
+		&lt;arg&gt;$ISSUE&lt;/arg&gt;
+		&lt;text type="copy"&gt;$TITLE&lt;/text&gt;
+	&lt;/item&gt;
+&lt;/items&gt;
+EOF
+</string>
+				<key>subtext</key>
+				<string>Opens issue in Alturos Jira</string>
+				<key>title</key>
+				<string>Jira</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>8C4566CB-7260-42B0-A941-2213DEB91184</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>C224323F-E59B-46FF-8A49-77EE1B74E668</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>crew-</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>1</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>QUERY="{query}"
+ISSUE="CREW-$QUERY"
+
+if [ "${#QUERY}" -lt "3" ]; then
+	echo '&lt;items&gt;&lt;item arg="CREW-{query}"&gt;&lt;title&gt;'$ISSUE'&lt;/title&gt;&lt;subtitle&gt;'$ISSUE'&lt;/subtitle&gt;&lt;/item&gt;&lt;/items&gt;'
+	exit
+fi
+
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home"
+export JIRA_CONFIG="-s https://chillimetrix.alturos.com/jira/ -u samren -p $(cat ~/.domain_password)"
+
+echo "/usr/local/bin/jira --action getIssue --issue $ISSUE" &gt;&gt; /tmp/jira.log
+CONTENT="$(/usr/local/bin/jira --action getIssue --issue $ISSUE 2&gt;&gt; /tmp/jira.log)"
+echo "$CONTENT" &gt;&gt; /tmp/jira.log
+TITLE="$(echo "$CONTENT" | grep -e '^Summary' | sed 's/^.* : //')"
+echo "$TITLE" &gt;&gt; /tmp/jira.log
+DESCRIPTION="$(echo "$CONTENT" | grep -e '^Description' | sed 's/^.* : //')"
+echo "$DESCRIPTION" &gt;&gt; /tmp/jira.log
+
+cat &lt;&lt;EOF
+&lt;items&gt;
+	&lt;item&gt;
+		&lt;title&gt;$TITLE&lt;/title&gt;
+		&lt;subtitle mod="alt"&gt;Copy "$TITLE" into clipboard&lt;/subtitle&gt;
+		&lt;subtitle&gt;$DESCRIPTION&lt;/subtitle&gt;
+		&lt;arg mod="alt"&gt;$TITLE&lt;/arg&gt;
+		&lt;arg&gt;$ISSUE&lt;/arg&gt;
+		&lt;text type="copy"&gt;$TITLE&lt;/text&gt;
+	&lt;/item&gt;
+&lt;/items&gt;
+EOF
+</string>
+				<key>subtext</key>
+				<string>Opens issue in Alturos Jira</string>
+				<key>title</key>
+				<string>Jira</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>F66F9F32-874E-4D21-8AD8-3F33601A8B2C</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>plusspaces</key>
+				<false/>
+				<key>url</key>
+				<string>https://chillimetrix.alturos.com/jira/secure/CreateIssue!default.jspa</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>D72C571F-61CF-4F00-A9FA-13C6C6D89CE8</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>issue</string>
+				<key>text</key>
+				<string>Create new Jira Issue</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>35243B29-FF06-4D8C-80C7-818CB97840F3</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>5F3F4D96-DDB1-4FDA-9DF0-4958EE1E7D3D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>sprint</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>FILTER="16933"
+
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home"
+export JIRA_CONFIG="-s https://chillimetrix.alturos.com/jira/ -u samren -p $(cat ~/.domain_password)"
+
+echo "/usr/local/bin/jira --action getIssueList --filter $FILTER" &gt;&gt; /tmp/jira.log
+
+/usr/local/bin/jira --action getIssueList --filter $FILTER | grep -v ' issues.$' | /usr/bin/python csv2alfred.py
+</string>
+				<key>subtext</key>
+				<string>Open issues of active sprint</string>
+				<key>title</key>
+				<string>Jira Sprint</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>7247ECB9-5B45-4F70-8495-E2801B7FA587</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>35243B29-FF06-4D8C-80C7-818CB97840F3</key>
+		<dict>
+			<key>ypos</key>
+			<real>490</real>
+		</dict>
+		<key>5F3F4D96-DDB1-4FDA-9DF0-4958EE1E7D3D</key>
+		<dict>
+			<key>ypos</key>
+			<real>610</real>
+		</dict>
+		<key>7247ECB9-5B45-4F70-8495-E2801B7FA587</key>
+		<dict>
+			<key>ypos</key>
+			<real>610</real>
+		</dict>
+		<key>73569DB5-F7F6-44C5-8456-8897B2E043CA</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+		<key>76A4E280-8190-4D16-97B9-DFC11F51FF86</key>
+		<dict>
+			<key>ypos</key>
+			<real>190</real>
+		</dict>
+		<key>8C4566CB-7260-42B0-A941-2213DEB91184</key>
+		<dict>
+			<key>ypos</key>
+			<real>250</real>
+		</dict>
+		<key>C224323F-E59B-46FF-8A49-77EE1B74E668</key>
+		<dict>
+			<key>ypos</key>
+			<real>310</real>
+		</dict>
+		<key>CB2F794F-DC4F-4050-A854-3B0D2BAA0772</key>
+		<dict>
+			<key>ypos</key>
+			<real>130</real>
+		</dict>
+		<key>D72C571F-61CF-4F00-A9FA-13C6C6D89CE8</key>
+		<dict>
+			<key>ypos</key>
+			<real>490</real>
+		</dict>
+		<key>F66F9F32-874E-4D21-8AD8-3F33601A8B2C</key>
+		<dict>
+			<key>ypos</key>
+			<real>370</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>http://resamsel.com</string>
+</dict>
+</plist>
