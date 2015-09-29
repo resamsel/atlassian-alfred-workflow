@@ -7,7 +7,7 @@ INSTALL_DIR ?= /tmp/alfred-jira-workflow
 TARGET = target
 JIRA_WORKFLOW = $(TARGET)/Jira\ Workflow
 ARCHIVE = $(JIRA_WORKFLOW).alfredworkflow
-SOURCES = *.png info.plist jiraissues2alfred.py
+SOURCES = icon.png info.plist jiraissues2alfred.py
 SETUPTOOLS = $(PYTHON) setup.py
 
 $(TARGET)/jira-0.50.tar.gz = https://pypi.python.org/packages/source/j/jira/jira-0.50.tar.gz
