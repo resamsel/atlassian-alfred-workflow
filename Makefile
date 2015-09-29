@@ -5,9 +5,9 @@ UNZIP ?= unzip
 INSTALL_DIR ?= /tmp/alfred-jira-workflow
 
 TARGET = target
-JIRA_WORKFLOW = $(TARGET)/Jira\ Workflow
-ARCHIVE = $(JIRA_WORKFLOW).alfredworkflow
-SOURCES = icon.png info.plist jiraissues2alfred.py
+ATLASSIAN_WORKFLOW = $(TARGET)/Atlassian\ Workflow
+ARCHIVE = $(ATLASSIAN_WORKFLOW).alfredworkflow
+SOURCES = icon.png info.plist *.py
 SETUPTOOLS = $(PYTHON) setup.py
 
 $(TARGET)/jira-0.50.tar.gz = https://pypi.python.org/packages/source/j/jira/jira-0.50.tar.gz
@@ -16,7 +16,7 @@ $(TARGET)/alfred-workflow-1.13.tar.gz = https://codeload.github.com/deanishe/alf
 
 init:
 	mkdir -p $(TARGET) $(TARGET)/lib $(TARGET)/workflow
-	mkdir -p $(JIRA_WORKFLOW) $(JIRA_WORKFLOW)/lib $(JIRA_WORKFLOW)/workflow
+	mkdir -p $(ATLASSIAN_WORKFLOW) $(ATLASSIAN_WORKFLOW)/lib $(ATLASSIAN_WORKFLOW)/workflow
 
 $(TARGET)/%.tar.gz: init
 	curl -o "$@" "$($@)"
@@ -38,11 +38,11 @@ assemble: assemble-jira assemble-requests assemble-workflow
 	cp $(TARGET)/requests-2.7.0/dist/*py2.7*.egg $(TARGET)/lib
 	cp $(TARGET)/alfred-workflow-1.13/workflow/* $(TARGET)/workflow
 
-	cp $(SOURCES) $(JIRA_WORKFLOW)
-	cp $(TARGET)/lib/* $(JIRA_WORKFLOW)/lib
-	cp $(TARGET)/workflow/* $(JIRA_WORKFLOW)/workflow
+	cp $(SOURCES) $(ATLASSIAN_WORKFLOW)
+	cp $(TARGET)/lib/* $(ATLASSIAN_WORKFLOW)/lib
+	cp $(TARGET)/workflow/* $(ATLASSIAN_WORKFLOW)/workflow
 	rm -f $(ARCHIVE)
-	cd $(JIRA_WORKFLOW); $(ZIP) -rq ../../$(ARCHIVE) .
+	cd $(ATLASSIAN_WORKFLOW); $(ZIP) -rq ../../$(ARCHIVE) .
 
 develop: assemble
 	ln -sf $(TARGET)/lib lib

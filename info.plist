@@ -49,6 +49,17 @@
 				<string>Copy '{query}' to clipboard</string>
 			</dict>
 		</array>
+		<key>7C4F3C75-6D47-4398-88D5-3EAA4382413E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5F3F4D96-DDB1-4FDA-9DF0-4958EE1E7D3D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 		<key>8C4566CB-7260-42B0-A941-2213DEB91184</key>
 		<array>
 			<dict>
@@ -476,7 +487,7 @@ EOF
 			<key>config</key>
 			<dict>
 				<key>argumenttype</key>
-				<integer>2</integer>
+				<integer>1</integer>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>keyword</key>
@@ -497,7 +508,7 @@ USERNAME=samren
 PASSWORD=$(cat ~/.domain_password)
 FILTER=16933
 
-/usr/bin/python jiraissues2alfred.py $SERVER $USERNAME $PASSWORD $FILTER
+/usr/bin/python jiraissues2alfred.py $SERVER $USERNAME $PASSWORD $FILTER {query}
 </string>
 				<key>subtext</key>
 				<string>Open issues of active sprint</string>
@@ -506,12 +517,55 @@ FILTER=16933
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>7247ECB9-5B45-4F70-8495-E2801B7FA587</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>plans</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>SERVER=http://bamboo.alturos.com:8085
+PROJECT=SKILINE
+USERNAME=samren
+PASSWORD=$(cat ~/.domain_password)
+
+/usr/bin/python bambooplans2alfred.py $SERVER $PROJECT $USERNAME $PASSWORD {query}
+</string>
+				<key>subtext</key>
+				<string>Plans of project SKILINE</string>
+				<key>title</key>
+				<string>Bamboo Plans</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>7C4F3C75-6D47-4398-88D5-3EAA4382413E</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -544,6 +598,11 @@ FILTER=16933
 		<dict>
 			<key>ypos</key>
 			<real>190</real>
+		</dict>
+		<key>7C4F3C75-6D47-4398-88D5-3EAA4382413E</key>
+		<dict>
+			<key>ypos</key>
+			<real>730</real>
 		</dict>
 		<key>8C4566CB-7260-42B0-A941-2213DEB91184</key>
 		<dict>

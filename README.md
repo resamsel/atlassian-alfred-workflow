@@ -1,4 +1,4 @@
-# Alfred Jira Workflow
+# Atlassian Alfred Workflow
 
 Shows the list of issues of a given filter and allows you to copy/insert their key and summary.
 
@@ -7,12 +7,12 @@ Shows the list of issues of a given filter and allows you to copy/insert their k
 Clone the repository locally, change into its directory, and make assemble:
 
 ```
-git clone 	https://github.com/resamsel/alfred-jira-workflow.git
-cd alfred-jira-workflow
+git clone 	https://github.com/resamsel/atlassian-alfred-workflow.git
+cd atlassian-alfred-workflow
 make assemble
 ```
 
-Then double click the **Jira Workflow.alfredworkflow** file within the **target** directory.
+Then double click the **Atlassian Workflow.alfredworkflow** file within the **target** directory.
 
 ## Configuration
 
