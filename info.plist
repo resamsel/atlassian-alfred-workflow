@@ -492,14 +492,12 @@ EOF
 				<key>runningsubtext</key>
 				<string>Searching...</string>
 				<key>script</key>
-				<string>FILTER="16933"
+				<string>SERVER=https://chillimetrix.alturos.com/jira
+USERNAME=samren
+PASSWORD=$(cat ~/.domain_password)
+FILTER=16933
 
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.6.0_65-b14-462.jdk/Contents/Home"
-export JIRA_CONFIG="-s https://chillimetrix.alturos.com/jira/ -u samren -p $(cat ~/.domain_password)"
-
-echo "/usr/local/bin/jira --action getIssueList --filter $FILTER" &gt;&gt; /tmp/jira.log
-
-/usr/local/bin/jira --action getIssueList --filter $FILTER | grep -v ' issues.$' | /usr/bin/python csv2alfred.py
+/usr/bin/python jiraissues2alfred.py $SERVER $USERNAME $PASSWORD $FILTER
 </string>
 				<key>subtext</key>
 				<string>Open issues of active sprint</string>
