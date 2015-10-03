@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>com.resamsel.jira</string>
+	<string>com.resamsel.atlassian</string>
 	<key>category</key>
 	<string>Tools</string>
 	<key>connections</key>
@@ -28,6 +28,14 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>0E8A81DC-400B-457E-9DD6-E4EA86A8F98A</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>Open in browser</string>
 			</dict>
 		</array>
 		<key>73569DB5-F7F6-44C5-8456-8897B2E043CA</key>
@@ -59,6 +67,14 @@
 				<key>modifiersubtext</key>
 				<string></string>
 			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>07BCF460-8DA8-4B8C-B666-31CFAAE1CA2E</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>Open in browser</string>
+			</dict>
 		</array>
 		<key>8C4566CB-7260-42B0-A941-2213DEB91184</key>
 		<array>
@@ -75,6 +91,17 @@
 				<string>C224323F-E59B-46FF-8A49-77EE1B74E668</string>
 				<key>modifiers</key>
 				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>8D0CBF8D-0E44-4B9E-8626-A739ACD214DA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>50FBD429-BE06-4D53-811A-6CEC18319503</string>
+				<key>modifiers</key>
+				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
 			</dict>
@@ -121,11 +148,11 @@
 	<key>createdby</key>
 	<string>René Samselnig</string>
 	<key>description</key>
-	<string>Opens a Jira issue in your default browser</string>
+	<string>Workflows for Atlassian products</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Jira</string>
+	<string>Atlassian</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -267,6 +294,21 @@ EOF
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>C224323F-E59B-46FF-8A49-77EE1B74E668</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>plusspaces</key>
 				<true/>
 				<key>url</key>
@@ -352,21 +394,6 @@ EOF
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
-				<false/>
-				<key>clipboardtext</key>
-				<string></string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
-			<key>uid</key>
-			<string>C224323F-E59B-46FF-8A49-77EE1B74E668</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>argumenttype</key>
 				<integer>0</integer>
 				<key>escaping</key>
@@ -435,6 +462,172 @@ EOF
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>awf</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Please wait...</string>
+				<key>script</key>
+				<string>/usr/bin/python config.py {query}</string>
+				<key>subtext</key>
+				<string>Atlassian Workflow Configuration</string>
+				<key>title</key>
+				<string>Atlassian Workflow</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>8A97F3D8-13F3-4801-A515-AC01EEF127ED</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>issues</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>/usr/bin/python jiraissues2alfred.py {query}
+</string>
+				<key>subtext</key>
+				<string>Open issues of active sprint</string>
+				<key>title</key>
+				<string>Jira Issues</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>7247ECB9-5B45-4F70-8495-E2801B7FA587</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>open "http://chillimetrix.alturos.com/jira/browse/$(echo "{query}" | cut -d: -f1)"</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>0E8A81DC-400B-457E-9DD6-E4EA86A8F98A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>5F3F4D96-DDB1-4FDA-9DF0-4958EE1E7D3D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>plans</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>/usr/bin/python bambooplans2alfred.py {query}
+</string>
+				<key>subtext</key>
+				<string>Plans of project SKILINE</string>
+				<key>title</key>
+				<string>Bamboo Plans</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>7C4F3C75-6D47-4398-88D5-3EAA4382413E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>open "http://bamboo.alturos.com:8085/browse/$(echo "{query}" | cut -d: -f1)"</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>07BCF460-8DA8-4B8C-B666-31CFAAE1CA2E</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>plusspaces</key>
 				<false/>
 				<key>url</key>
@@ -471,15 +664,17 @@ EOF
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
+				<key>plusspaces</key>
+				<false/>
+				<key>url</key>
+				<string>http://bamboo.alturos.com:8085/browse/{query}</string>
+				<key>utf8</key>
 				<true/>
-				<key>clipboardtext</key>
-				<string></string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
+			<string>alfred.workflow.action.openurl</string>
 			<key>uid</key>
-			<string>5F3F4D96-DDB1-4FDA-9DF0-4958EE1E7D3D</string>
+			<string>50FBD429-BE06-4D53-811A-6CEC18319503</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -487,85 +682,18 @@ EOF
 			<key>config</key>
 			<dict>
 				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>127</integer>
+				<integer>0</integer>
 				<key>keyword</key>
-				<string>sprint</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Searching...</string>
-				<key>script</key>
-				<string>SERVER=https://chillimetrix.alturos.com/jira
-USERNAME=samren
-PASSWORD=$(cat ~/.domain_password)
-FILTER=16933
-
-/usr/bin/python jiraissues2alfred.py $SERVER $USERNAME $PASSWORD $FILTER {query}
-</string>
-				<key>subtext</key>
-				<string>Open issues of active sprint</string>
-				<key>title</key>
-				<string>Jira Sprint</string>
-				<key>type</key>
-				<integer>0</integer>
+				<string>bamboo</string>
+				<key>text</key>
+				<string>Open Bamboo Build</string>
 				<key>withspace</key>
 				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
+			<string>alfred.workflow.input.keyword</string>
 			<key>uid</key>
-			<string>7247ECB9-5B45-4F70-8495-E2801B7FA587</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>127</integer>
-				<key>keyword</key>
-				<string>plans</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Searching...</string>
-				<key>script</key>
-				<string>SERVER=http://bamboo.alturos.com:8085
-PROJECT=SKILINE
-USERNAME=samren
-PASSWORD=$(cat ~/.domain_password)
-
-/usr/bin/python bambooplans2alfred.py $SERVER $PROJECT $USERNAME $PASSWORD {query}
-</string>
-				<key>subtext</key>
-				<string>Plans of project SKILINE</string>
-				<key>title</key>
-				<string>Bamboo Plans</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>7C4F3C75-6D47-4398-88D5-3EAA4382413E</string>
+			<string>8D0CBF8D-0E44-4B9E-8626-A739ACD214DA</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
@@ -574,15 +702,30 @@ PASSWORD=$(cat ~/.domain_password)
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>07BCF460-8DA8-4B8C-B666-31CFAAE1CA2E</key>
+		<dict>
+			<key>ypos</key>
+			<real>790</real>
+		</dict>
+		<key>0E8A81DC-400B-457E-9DD6-E4EA86A8F98A</key>
+		<dict>
+			<key>ypos</key>
+			<real>670</real>
+		</dict>
 		<key>35243B29-FF06-4D8C-80C7-818CB97840F3</key>
 		<dict>
 			<key>ypos</key>
-			<real>490</real>
+			<real>910</real>
+		</dict>
+		<key>50FBD429-BE06-4D53-811A-6CEC18319503</key>
+		<dict>
+			<key>ypos</key>
+			<real>1020</real>
 		</dict>
 		<key>5F3F4D96-DDB1-4FDA-9DF0-4958EE1E7D3D</key>
 		<dict>
 			<key>ypos</key>
-			<real>610</real>
+			<real>670</real>
 		</dict>
 		<key>7247ECB9-5B45-4F70-8495-E2801B7FA587</key>
 		<dict>
@@ -604,15 +747,25 @@ PASSWORD=$(cat ~/.domain_password)
 			<key>ypos</key>
 			<real>730</real>
 		</dict>
+		<key>8A97F3D8-13F3-4801-A515-AC01EEF127ED</key>
+		<dict>
+			<key>ypos</key>
+			<real>490</real>
+		</dict>
 		<key>8C4566CB-7260-42B0-A941-2213DEB91184</key>
 		<dict>
 			<key>ypos</key>
 			<real>250</real>
 		</dict>
+		<key>8D0CBF8D-0E44-4B9E-8626-A739ACD214DA</key>
+		<dict>
+			<key>ypos</key>
+			<real>1020</real>
+		</dict>
 		<key>C224323F-E59B-46FF-8A49-77EE1B74E668</key>
 		<dict>
 			<key>ypos</key>
-			<real>310</real>
+			<real>190</real>
 		</dict>
 		<key>CB2F794F-DC4F-4050-A854-3B0D2BAA0772</key>
 		<dict>
@@ -622,7 +775,7 @@ PASSWORD=$(cat ~/.domain_password)
 		<key>D72C571F-61CF-4F00-A9FA-13C6C6D89CE8</key>
 		<dict>
 			<key>ypos</key>
-			<real>490</real>
+			<real>910</real>
 		</dict>
 		<key>F66F9F32-874E-4D21-8AD8-3F33601A8B2C</key>
 		<dict>

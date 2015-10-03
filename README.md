@@ -16,18 +16,24 @@ Then double click the **Atlassian Workflow.alfredworkflow** file within the **ta
 
 ## Configuration
 
-Open the workflow in the Alfred preferences and edit the **Sprint Script Filter**. Change the values for your *server*, *username*, *password*, and *filter* according to your needs.
+Configuration can be done using the installed Alfred workflow. Type `awf` into the Alfred input window and use tab on each configuration entry. Then enter the value of that entry and hit enter.
 
-Here is an example:
+Here is an example configuration:
 
 ```
-SERVER=https://jira.atlassian.com
-USERNAME=resamsel
-PASSWORD=$(cat ~/.domain_password)
-FILTER=12345
-
-/usr/bin/python jiraissues2alfred.py $SERVER $USERNAME $PASSWORD $FILTER
+awf jira-server https://jira.atlassian.com
+awf bamboo-server https://bamboo.atlassian.com
+awf username myuser
+awf password mypassword
+awf jira-filter 12345
+awf bamboo-project PROJECT
 ```
+
+### Keychain Access
+
+The password will be saved in the OSX Keychain, so it will not be saved in clear text.
+
+**The password will never be shown in the workflows!**
 
 ## Development
 

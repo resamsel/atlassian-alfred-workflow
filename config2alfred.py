@@ -3,7 +3,7 @@
 
 import sys
 
-from atlassian import jira
+from atlassian import config
 from main import create_workflow
 
 __version__ = '0.0.1'
@@ -12,12 +12,11 @@ __version__ = '0.0.1'
 def main(wf):
     wf.logger.debug('Args: %s', wf.args)
 
-    for issue in jira.get_issues(wf):
-        wf.add_item(**issue)
+    for item in config.Config(wf).process():
+        wf.add_item(**item)
 
     # Send output to Alfred
     wf.send_feedback()
 
 if __name__ == '__main__':
-    wf = create_workflow()
-    sys.exit(wf.run(main))
+    sys.exit(create_workflow().run(main))

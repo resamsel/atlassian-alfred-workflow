@@ -2,21 +2,20 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import logging
 
-from atlassian import jira
+from atlassian import bamboo
 from main import create_workflow
 
 __version__ = '0.0.1'
 
 
 def main(wf):
+    wf.logger.setLevel(logging.ERROR)
     wf.logger.debug('Args: %s', wf.args)
 
-    for issue in jira.get_issues(wf):
-        wf.add_item(**issue)
-
-    # Send output to Alfred
-    wf.send_feedback()
+    for plan in bamboo.get_plans(wf):
+        print plan['title']
 
 if __name__ == '__main__':
     wf = create_workflow()
