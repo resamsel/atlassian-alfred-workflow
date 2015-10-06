@@ -12,7 +12,7 @@ PYTHON_SOURCES = src/*
 SOURCES = icon.png info.plist $(PYTHON_SOURCES)
 INSTALL_DIR = $(ATLASSIAN_WORKFLOW)
 
-$(TARGET)/alfred-workflow-1.13.tar.gz = https://codeload.github.com/deanishe/alfred-workflow/tar.gz/v1.13
+$(TARGET)/alfred-workflow-1.13.tar.gz = https://pypi.python.org/packages/source/A/Alfred-Workflow/Alfred-Workflow-1.13.tar.gz
 
 init:
 	mkdir -p $(TARGET) $(TARGET)/workflow
@@ -39,11 +39,6 @@ assemble: assemble-workflow
 	cd $(WORKFLOW); $(ZIP) -rq ../../$(ARCHIVE) .
 
 develop: assemble-workflow
-	rm -f src/workflow
-	ln -sf $(shell pwd)/$(TARGET)/workflow src/workflow
-	ln -sf src/*.py .
-	ln -sf src/atlassian .
-	ln -sf src/workflow .
 	$(SETUPTOOLS) develop
 
 install-workflow: assemble

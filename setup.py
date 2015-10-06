@@ -18,6 +18,12 @@ setup(
 
     test_suite='tests',
 
+    # dependencies
+    install_requires=[
+        'alfred-workflow==1.13'
+    ],
+
+    # test dependencies
     tests_require=[
         'flake8>=2.2.5',
         'pep8-naming>=0.2.2',
