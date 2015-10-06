@@ -1,9 +1,12 @@
+PACKAGE_NAME ?= atlassian
 PYTHON ?= python
 ZIP ?= zip
 UNZIP ?= unzip
-FLAKE8 ?= flake8
-SETUPTOOLS ?= $(PYTHON) setup.py
 ATLASSIAN_WORKFLOW ?= /tmp/atlassian-alfred-workflow
+
+# Code quality and coverage
+FLAKE8 ?= flake8 --max-complexity=16
+PYLINT ?= pylint
 
 TARGET = target
 WORKFLOW = $(TARGET)/Atlassian\ Workflow
@@ -12,7 +15,12 @@ PYTHON_SOURCES = src/*
 SOURCES = icon.png info.plist $(PYTHON_SOURCES)
 INSTALL_DIR = $(ATLASSIAN_WORKFLOW)
 
-$(TARGET)/alfred-workflow-1.13.tar.gz = https://pypi.python.org/packages/source/A/Alfred-Workflow/Alfred-Workflow-1.13.tar.gz
+SETUPTOOLS = $(PYTHON) setup.py
+TEST_NOSE = nosetests --with-coverage --cover-package=$(PACKAGE_NAME) --cover-html \
+	--cover-html-dir=$(PWD)/$(TARGET)/coverage
+TEST = $(SETUPTOOLS) $(TEST_NOSE)
+
+$(TARGET)/Alfred-Workflow-1.13.tar.gz = https://pypi.python.org/packages/source/A/Alfred-Workflow/Alfred-Workflow-1.13.tar.gz
 
 init:
 	mkdir -p $(TARGET) $(TARGET)/workflow
@@ -29,25 +37,31 @@ $(TARGET)/%: $(TARGET)/%.tar.gz
 bdist-%: $(TARGET)/%
 	cd $^; $(SETUPTOOLS) bdist_egg
 
-assemble-workflow: $(TARGET)/alfred-workflow-1.13
-	cp $(TARGET)/alfred-workflow-1.13/workflow/* $(TARGET)/workflow
+assemble-workflow: $(TARGET)/Alfred-Workflow-1.13
+	cp $^/workflow/* $(TARGET)/workflow
 
-assemble: assemble-workflow
 	cp -r $(SOURCES) $(WORKFLOW)
 	cp $(TARGET)/workflow/* $(WORKFLOW)/workflow/
 	rm -f $(ARCHIVE)
 	cd $(WORKFLOW); $(ZIP) -rq ../../$(ARCHIVE) .
 
-develop: assemble-workflow
+assemble: assemble-workflow
+
+develop:
 	$(SETUPTOOLS) develop
 
-install-workflow: assemble
+install:
+	$(SETUPTOOLS) install
+
+install-workflow: assemble-workflow
 	$(UNZIP) -oq $(ARCHIVE) -d $(INSTALL_DIR)
 
-code-quality:
-	$(FLAKE8) $(PYTHON_SOURCES)
+check-code:
+	$(FLAKE8) src
+	$(PYLINT) src/$(PACKAGE_NAME)
 
-test: code-quality
+test: init check-code
+	$(TEST)
 
 clean:
 	$(SETUPTOOLS) clean
