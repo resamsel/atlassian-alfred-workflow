@@ -3,8 +3,7 @@
 
 import sys
 
-from atlassian import jira
-from main import create_workflow
+from atlassian import jira, create_workflow
 
 __version__ = '0.0.1'
 

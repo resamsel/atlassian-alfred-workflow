@@ -479,7 +479,7 @@ EOF
 				<key>runningsubtext</key>
 				<string>Please wait...</string>
 				<key>script</key>
-				<string>/usr/bin/python config.py {query}</string>
+				<string>/usr/bin/python config2alfred.py {query}</string>
 				<key>subtext</key>
 				<string>Atlassian Workflow Configuration</string>
 				<key>title</key>

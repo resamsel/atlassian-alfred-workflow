@@ -2,20 +2,23 @@ PYTHON ?= python
 ZIP ?= zip
 UNZIP ?= unzip
 FLAKE8 ?= flake8
-INSTALL_DIR ?= /tmp/atlassian-alfred-workflow
+SETUPTOOLS ?= $(PYTHON) setup.py
+ATLASSIAN_WORKFLOW ?= /tmp/atlassian-alfred-workflow
 
 TARGET = target
-ATLASSIAN_WORKFLOW = $(TARGET)/Atlassian\ Workflow
-ARCHIVE = $(ATLASSIAN_WORKFLOW).alfredworkflow
-PYTHON_SOURCES = *.py atlassian
+WORKFLOW = $(TARGET)/Atlassian\ Workflow
+ARCHIVE = $(WORKFLOW).alfredworkflow
+PYTHON_SOURCES = src/*
 SOURCES = icon.png info.plist $(PYTHON_SOURCES)
-SETUPTOOLS = $(PYTHON) setup.py
+INSTALL_DIR = $(ATLASSIAN_WORKFLOW)
 
 $(TARGET)/alfred-workflow-1.13.tar.gz = https://codeload.github.com/deanishe/alfred-workflow/tar.gz/v1.13
 
 init:
 	mkdir -p $(TARGET) $(TARGET)/workflow
-	mkdir -p $(ATLASSIAN_WORKFLOW) $(ATLASSIAN_WORKFLOW)/workflow
+	mkdir -p $(WORKFLOW) $(WORKFLOW)/workflow
+
+.PRECIOUS: $(TARGET)/%.tar.gz
 
 $(TARGET)/%.tar.gz: init
 	curl -o "$@" "$($@)"
@@ -27,19 +30,23 @@ bdist-%: $(TARGET)/%
 	cd $^; $(SETUPTOOLS) bdist_egg
 
 assemble-workflow: $(TARGET)/alfred-workflow-1.13
-
-assemble: assemble-workflow
 	cp $(TARGET)/alfred-workflow-1.13/workflow/* $(TARGET)/workflow
 
-	cp -r $(SOURCES) $(ATLASSIAN_WORKFLOW)
-	cp $(TARGET)/workflow/* $(ATLASSIAN_WORKFLOW)/workflow/
+assemble: assemble-workflow
+	cp -r $(SOURCES) $(WORKFLOW)
+	cp $(TARGET)/workflow/* $(WORKFLOW)/workflow/
 	rm -f $(ARCHIVE)
-	cd $(ATLASSIAN_WORKFLOW); $(ZIP) -rq ../../$(ARCHIVE) .
+	cd $(WORKFLOW); $(ZIP) -rq ../../$(ARCHIVE) .
 
-develop: assemble test
-	ln -sf $(TARGET)/workflow workflow
+develop: assemble-workflow
+	rm -f src/workflow
+	ln -sf $(shell pwd)/$(TARGET)/workflow src/workflow
+	ln -sf src/*.py .
+	ln -sf src/atlassian .
+	ln -sf src/workflow .
+	$(SETUPTOOLS) develop
 
-install: assemble
+install-workflow: assemble
 	$(UNZIP) -oq $(ARCHIVE) -d $(INSTALL_DIR)
 
 code-quality:
@@ -48,5 +55,7 @@ code-quality:
 test: code-quality
 
 clean:
-	rm -rf $(TARGET) workflow
-	find . -name "*.pyc"
+	$(SETUPTOOLS) clean
+	rm -rf $(TARGET)
+	find . -type l -delete
+	find . -name "*.pyc" -delete

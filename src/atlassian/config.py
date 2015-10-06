@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import logging
+
 KEY_JIRA_SERVER = 'jira-server'
 KEY_BAMBOO_SERVER = 'bamboo-server'
 KEY_USERNAME = 'username'
@@ -82,3 +84,11 @@ class Config(object):
             return wf.filter(property, items, key)
 
         return items
+
+
+def main(wf):
+    wf.logger.setLevel(logging.ERROR)
+    wf.logger.debug('Args: %s', wf.args)
+
+    for issue in Config(wf).process():
+        print '{subtitle}: {title}'.format(**issue)

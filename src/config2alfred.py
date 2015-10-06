@@ -3,8 +3,7 @@
 
 import sys
 
-from atlassian import bamboo
-from main import create_workflow
+from atlassian import config, create_workflow
 
 __version__ = '0.0.1'
 
@@ -12,12 +11,11 @@ __version__ = '0.0.1'
 def main(wf):
     wf.logger.debug('Args: %s', wf.args)
 
-    for plan in bamboo.get_plans(wf):
-        wf.add_item(**plan)
+    for item in config.Config(wf).process():
+        wf.add_item(**item)
 
     # Send output to Alfred
     wf.send_feedback()
 
 if __name__ == '__main__':
-    wf = create_workflow()
-    sys.exit(wf.run(main))
+    sys.exit(create_workflow().run(main))

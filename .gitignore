@@ -2,3 +2,4 @@ target
 lib
 workflow
 *.pyc
+*.egg-info

@@ -18,7 +18,7 @@ Then double click the **Atlassian Workflow.alfredworkflow** file within the **ta
 
 Configuration can be done using the installed Alfred workflow. Type `awf` into the Alfred input window and use tab on each configuration entry. Then enter the value of that entry and hit enter.
 
-Here is an example configuration:
+Here is an example configuration using Alfred:
 
 ```
 awf jira-server https://jira.atlassian.com
@@ -27,6 +27,17 @@ awf username myuser
 awf password mypassword
 awf jira-filter 12345
 awf bamboo-project PROJECT
+```
+
+Here is an example configuration using the shell:
+
+```
+awf-config jira-server https://jira.atlassian.com
+awf-config bamboo-server https://bamboo.atlassian.com
+awf-config username myuser
+awf-config password mypassword
+awf-config jira-filter 12345
+awf-config bamboo-project PROJECT
 ```
 
 ### Keychain Access

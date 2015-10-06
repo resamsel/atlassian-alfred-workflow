@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from base64 import b64encode
 
 from workflow import web
@@ -64,3 +66,11 @@ def get_issues(wf):
         issues = wf.filter(query, issues, key_for_issue)
 
     return issues
+
+
+def main(wf):
+    wf.logger.setLevel(logging.ERROR)
+    wf.logger.debug('Args: %s', wf.args)
+
+    for issue in get_issues(wf):
+        print issue['subtitle']

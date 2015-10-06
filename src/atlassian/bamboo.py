@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import re
 
 from workflow import web
@@ -147,3 +148,11 @@ def get_plans(wf):
             'branches', Branches(wf, plans[0]['title']).load, max_age=30)
 
     return plans
+
+
+def main(wf):
+    wf.logger.setLevel(logging.ERROR)
+    wf.logger.debug('Args: %s', wf.args)
+
+    for plan in get_plans(wf):
+        print plan['title']
