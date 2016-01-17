@@ -15,9 +15,20 @@ KEYS = (
     KEY_JIRA_FILTER, KEY_BAMBOO_PROJECT
 )
 
+PASSWORD_WORKAROUND = True
+
 
 def key(item):
     return '{title} {subtitle}'.format(**item)
+
+
+def get_password(wf, key):
+    if PASSWORD_WORKAROUND:
+        # The password workaround needs to be used because of a defect in
+        # the workflow library
+        return wf.stored_data(key)
+
+    return wf.get_password(key)
 
 
 class Config(object):
@@ -29,7 +40,7 @@ class Config(object):
 
         if property == KEY_PASSWORD:
             wf.logger.debug('Saving password')
-            wf.save_password(KEY_PASSWORD, value)
+            self.store_password(KEY_PASSWORD, value)
         else:
             wf.logger.debug('Storing data: %s=%s', property, value)
             wf.store_data(property, value)
@@ -49,7 +60,7 @@ class Config(object):
                 items.append({
                     # Get the password, but don't display its value
                     'title': {None: ''}.get(
-                        wf.get_password(KEY_PASSWORD),
+                        self.get_password(KEY_PASSWORD),
                         '********'
                     ),
                     'subtitle': key,
@@ -63,6 +74,21 @@ class Config(object):
                 })
 
         return items
+
+    def store_password(self, key, value):
+        """Stores the password in the secure store"""
+
+        if PASSWORD_WORKAROUND:
+            # The password workaround needs to be used because of a defect in
+            # the workflow library
+            self.wf.store_data(key, value)
+        else:
+            self.wf.save_password(key, value)
+
+    def get_password(self, key):
+        """Retrieves the password from the secure store"""
+
+        return get_password(self.wf, key)
 
     def process(self):
         wf = self.wf

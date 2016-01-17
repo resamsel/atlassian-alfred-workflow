@@ -7,8 +7,11 @@ from base64 import b64encode
 from workflow import web
 
 from config import KEY_JIRA_SERVER, KEY_USERNAME, KEY_PASSWORD, KEY_JIRA_FILTER
+from config import get_password
 
 __version__ = '0.0.1'
+
+logger = logging.getLogger(__name__)
 
 
 class Issues(object):
@@ -21,6 +24,8 @@ class Issues(object):
         url = '{0}/rest/api/2/search'.format(wf.stored_data(KEY_JIRA_SERVER))
         params = {'jql': 'filter={0}'.format(wf.stored_data(KEY_JIRA_FILTER))}
 
+        logger.debug('URL: %s, params: %s', url, params)
+
         wf.logger.debug('URL: %s, params: %s', url, params)
 
         response = web.get(
@@ -31,7 +36,7 @@ class Issues(object):
                 'Authorization': 'Basic {0}'.format(
                     b64encode('{0}:{1}'.format(
                         wf.stored_data(KEY_USERNAME),
-                        wf.get_password(KEY_PASSWORD))))
+                        get_password(wf, KEY_PASSWORD))))
             }
         ).json()
 
@@ -69,8 +74,7 @@ def get_issues(wf):
 
 
 def main(wf):
-    wf.logger.setLevel(logging.ERROR)
     wf.logger.debug('Args: %s', wf.args)
 
     for issue in get_issues(wf):
-        print issue['subtitle']
+        print u'{subtitle}: {title}'.format(**issue)

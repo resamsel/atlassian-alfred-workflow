@@ -7,6 +7,7 @@ from workflow import web
 
 from config import KEY_BAMBOO_SERVER, KEY_BAMBOO_PROJECT, KEY_USERNAME, \
     KEY_PASSWORD
+from config import get_password
 
 __version__ = '0.0.1'
 
@@ -30,7 +31,7 @@ class Results(object):
                 wf.stored_data(KEY_BAMBOO_SERVER),
                 self.branch_key
             ),
-            auth=(wf.stored_data(KEY_USERNAME), wf.get_password(KEY_PASSWORD))
+            auth=(wf.stored_data(KEY_USERNAME), get_password(wf, KEY_PASSWORD))
         ).json()
 
         return map(
@@ -64,7 +65,7 @@ class Branches(object):
                 wf.stored_data(KEY_BAMBOO_SERVER),
                 self.plan_key
             ),
-            auth=(wf.stored_data(KEY_USERNAME), wf.get_password(KEY_PASSWORD))
+            auth=(wf.stored_data(KEY_USERNAME), get_password(wf, KEY_PASSWORD))
         ).json()
 
         return map(
@@ -92,7 +93,7 @@ class Plans(object):
                 wf.stored_data(KEY_BAMBOO_SERVER),
                 wf.stored_data(KEY_BAMBOO_PROJECT)
             ),
-            auth=(wf.stored_data(KEY_USERNAME), wf.get_password(KEY_PASSWORD))
+            auth=(wf.stored_data(KEY_USERNAME), get_password(wf, KEY_PASSWORD))
         ).json()
 
         return map(
